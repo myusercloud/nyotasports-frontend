@@ -1,7 +1,7 @@
 import { Box } from "@chakra-ui/react";
-import Navbar from "../components/layout/navbar";
-import Footer from "../components/layout/footer";
-import Hero from "../components/home/hero";
+import Navbar from "../components/layout/Navbar2";
+import Footer from "../components/layout/Footer2";
+import Hero from "../components/home/Hero2";
 import Categories from "../components/home/Categories";
 import FeaturedProducts from "../components/home/FeaturedProducts";
 
