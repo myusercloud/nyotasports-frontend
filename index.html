@@ -1,13 +1,55 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <!-- Basic Setup -->
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" href="/goal.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>nyotasports-frontend</title>
+
+    <!-- SEO Meta -->
+    <title>Nyota Sports | Premium Sports Gear & Equipment</title>
+    <meta 
+      name="description" 
+      content="Shop high-performance sports gear at Nyota Sports. From footballs to running shoes, get the best equipment for athletes in Kenya and beyond." 
+    />
+    <meta name="keywords" content="sports gear, football, basketball, running shoes, Kenya, Nyota Sports" />
+    <meta name="author" content="Nyota Sports" />
+
+    <!-- Open Graph (Facebook, WhatsApp, LinkedIn) -->
+    <meta property="og:title" content="Nyota Sports | Premium Sports Gear" />
+    <meta property="og:description" content="High-performance gear curated for the modern athlete." />
+    <meta property="og:image" content="/goal.png" />
+    <meta property="og:url" content="https://nyotasports.com" />
+    <meta property="og:type" content="website" />
+
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Nyota Sports" />
+    <meta name="twitter:description" content="Premium sports gear and equipment." />
+    <meta name="twitter:image" content="/goal.png" />
+
+    <!-- Performance Optimizations -->
+    <link rel="preconnect" href="https://images.unsplash.com" />
+    <link rel="dns-prefetch" href="https://images.unsplash.com" />
+
+    <!-- Fonts (optional if you add custom fonts later) -->
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet"> -->
+
+    <!-- Theme Color (for mobile browsers) -->
+    <meta name="theme-color" content="#1A1A1A" />
+
+    <!-- Robots -->
+    <meta name="robots" content="index, follow" />
   </head>
+
   <body>
+    <noscript>
+      You need to enable JavaScript to run this app.
+    </noscript>
+
     <div id="root"></div>
+
+    <!-- Main React Entry -->
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
