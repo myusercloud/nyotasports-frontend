@@ -1,82 +1,166 @@
-// src/components/layout/Navbar.jsx
-import { Flex, Box, Text, HStack, IconButton, useDisclosure, Stack } from "@chakra-ui/react";
+// src/components/layout/Navbar2.jsx
+import {
+  Flex,
+  Box,
+  Text,
+  HStack,
+  VStack,
+  IconButton,
+  useDisclosure,
+} from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
-import { Link } from "react-router-dom"; // Add this import
+import { Link, useLocation } from "react-router-dom";
+import { keyframes } from "@emotion/react"; // ✅ use emotion for animations
 
-function Navbar() {
-  const { isOpen, onToggle } = useDisclosure();
-  const beigeWhite = "#FAF9F6";
-  const deepBlack = "#1A1A1A";
+// ── Animation ─────────────────────────────
+const slideDown = keyframes`
+  from { opacity: 0; transform: translateY(-12px); }
+  to   { opacity: 1; transform: translateY(0); }
+`;
 
-  const links = [
-    { name: "Home", path: "/" },
-    { name: "Shop", path: "/products" }, // <- links to your Products page
-    { name: "Categories", path: "/categories" }, // you can create this later
-    { name: "Cart", path: "/cart" } // placeholder, create Cart page later
-  ];
+// ── Default links ─────────────────────────
+const DEFAULT_LINKS = [
+  { name: "Home",       path: "/" },
+  { name: "Shop",       path: "/products" },
+  { name: "Categories", path: "/categories" },
+  { name: "Cart",       path: "/cart" },
+];
+
+const Navbar2 = ({ links = DEFAULT_LINKS }) => {
+  const { isOpen, onToggle, onClose } = useDisclosure();
+  const location = useLocation();
+
+  const ink    = "#0D0D0D";
+  const cream  = "#F5F0E8";
+  const accent = "#C8A86B";
+
+  const isActive = (path) => location.pathname === path;
 
   return (
-    <Box position="sticky" top={0} zIndex={10} w="full">
-      <Flex 
-        bg={deepBlack} 
-        color={beigeWhite} 
-        p={4} 
-        px={{ base: 4, md: 10 }}
-        align="center" 
+    <Box position="sticky" top={0} zIndex={200} w="full" fontFamily="'Georgia', serif">
+      {/* ── Main bar ───────────────────────────── */}
+      <Flex
+        bg={ink}
+        color={cream}
+        px={{ base: 5, md: 10, lg: 16 }}
+        h="64px"
+        align="center"
         justify="space-between"
         borderBottom="1px solid"
-        borderColor="gray.800"
+        borderColor="whiteAlpha.100"
       >
         {/* Brand */}
-        <Text fontSize="2xl" fontWeight="900" letterSpacing="tighter" textTransform="uppercase">
-          Nyota <Box as="span" fontWeight="400" letterSpacing="widest" color="gray.400">Sports</Box>
-        </Text>
+        <Link to="/" onClick={onClose}>
+          <Flex align="baseline" gap={1} _hover={{ opacity: 0.85 }} transition="opacity 0.2s">
+            <Text
+              fontSize={{ base: "lg", md: "xl" }}
+              fontWeight="900"
+              letterSpacing="-1px"
+              textTransform="uppercase"
+              color={cream}
+              lineHeight={1}
+            >
+              Nyota
+            </Text>
+            <Text
+              fontSize={{ base: "lg", md: "xl" }}
+              fontWeight="400"
+              letterSpacing="widest"
+              color={accent}
+              textTransform="uppercase"
+              lineHeight={1}
+            >
+              Sports
+            </Text>
+          </Flex>
+        </Link>
 
-        {/* Desktop Links */}
+        {/* Desktop links */}
         <HStack spacing={8} display={{ base: "none", md: "flex" }}>
           {links.map((link) => (
             <Link key={link.name} to={link.path}>
-              <Text 
-                cursor="pointer" 
-                fontSize="sm" 
-                fontWeight="bold" 
-                textTransform="uppercase"
-                _hover={{ color: "gray.400" }}
-              >
-                {link.name}
-              </Text>
+              <Box position="relative" pb={0.5}>
+                <Text
+                  fontSize="10px"
+                  fontWeight="700"
+                  letterSpacing="widest"
+                  textTransform="uppercase"
+                  fontFamily="'Arial', sans-serif"
+                  color={isActive(link.path) ? cream : "whiteAlpha.500"}
+                  transition="color 0.2s"
+                  _hover={{ color: cream }}
+                >
+                  {link.name}
+                </Text>
+                <Box
+                  position="absolute"
+                  bottom="-2px"
+                  left={0}
+                  w={isActive(link.path) ? "100%" : "0%"}
+                  h="2px"
+                  bg={accent}
+                  transition="width 0.25s ease"
+                />
+              </Box>
             </Link>
           ))}
         </HStack>
 
-        {/* Mobile Menu Toggle */}
-        <IconButton
-          display={{ base: "flex", md: "none" }}
-          onClick={onToggle}
-          icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
-          variant="ghost"
-          color={beigeWhite}
-          aria-label="Toggle Navigation"
-          _hover={{ bg: "gray.800" }}
-        />
+        {/* Right side: mobile toggle */}
+        <HStack spacing={3}>
+          <IconButton
+            display={{ base: "flex", md: "none" }}
+            onClick={onToggle}
+            icon={isOpen ? <CloseIcon w={3} h={3} /> : <HamburgerIcon w={5} h={5} />}
+            variant="ghost"
+            color={cream}
+            aria-label="Toggle Navigation"
+            borderRadius="sm"
+            _hover={{ bg: "whiteAlpha.100" }}
+            size="sm"
+          />
+        </HStack>
       </Flex>
 
-      {/* Mobile Dropdown */}
+      {/* ── Mobile drawer ─────────────────────────── */}
       {isOpen && (
-        <Box pb={4} display={{ md: "none" }} bg={deepBlack} color={beigeWhite} px={4}>
-          <Stack as="nav" spacing={4}>
+        <Box
+          display={{ md: "none" }}
+          bg={ink}
+          borderBottom="1px solid"
+          borderColor="whiteAlpha.100"
+          animation={`${slideDown} 0.25s ease both`}
+        >
+          <VStack align="stretch" spacing={0} px={5} pb={4}>
             {links.map((link) => (
-              <Link key={link.name} to={link.path}>
-                <Text py={2} fontWeight="bold" borderBottom="1px solid" borderColor="gray.800">
-                  {link.name}
-                </Text>
+              <Link key={link.name} to={link.path} onClick={onClose}>
+                <Flex
+                  py={4}
+                  align="center"
+                  justify="space-between"
+                  borderBottom="1px solid"
+                  borderColor="whiteAlpha.50"
+                  _last={{ borderBottom: "none" }}
+                >
+                  <Text
+                    fontSize="xs"
+                    fontWeight="700"
+                    letterSpacing="widest"
+                    textTransform="uppercase"
+                    fontFamily="'Arial', sans-serif"
+                    color={isActive(link.path) ? cream : "whiteAlpha.500"}
+                  >
+                    {link.name}
+                  </Text>
+                  <Text color={accent} fontSize="sm">→</Text>
+                </Flex>
               </Link>
             ))}
-          </Stack>
+          </VStack>
         </Box>
       )}
     </Box>
   );
-}
+};
 
-export default Navbar;
+export default Navbar2;
